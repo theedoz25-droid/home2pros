@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Login | home2pros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: #f9fafb; color: #1f2937; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .login-container { background: white; padding: 2.5rem; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+    h1 { text-align: center; color: #1e40af; margin-bottom: 1.5rem; font-size: 1.8rem; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+    input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    .btn { background: #1e40af; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; }
+    .btn:hover { background: #1e3a8a; }
+    .footer { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #6b7280; }
+    .footer a { color: #1e40af; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Customer Login</h1>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn">Log In</button>
+    </form>
+    <div class="footer">
+      Don't have an account? <a href="customer-signup.html">Sign up</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').onsubmit = e => {
+      e.preventDefault();
+      localStorage.setItem('home2pros_user', 'customer');
+      const next = new URLSearchParams(window.location.search).get('next') || 'dashboard.html';
+      location.href = next;
+    };
+  </script>
+</body>
+</html>

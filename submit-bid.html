@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit Bid | home2pros</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* [YOUR FULL LUXURY STYLES - UNCHANGED] */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f8f9fa; }
+
+    header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    main { padding-top: 100px; padding-bottom: 2rem; }
+
+    .page-header {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .page-header h1 {
+      font-size: 2.4rem;
+      color: #1e40af;
+      margin: 0 0 0.5rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .page-header p {
+      color: #6b7280;
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .container { max-width: 800px; margin: 0 auto; padding: 0 1rem; }
+
+    .job-summary {
+      background: white;
+      border-radius: 20px;
+      padding: 1.8rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+    }
+    .job-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin: 0 0 0.5rem;
+    }
+    .job-meta {
+      font-size: 1rem;
+      color: #6b7280;
+      margin: 0 0 1rem;
+    }
+    .job-desc {
+      font-size: 1.05rem;
+      color: #4b5563;
+      line-height: 1.6;
+      margin: 0 0 1.5rem;
+    }
+    .job-photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.8rem;
+      margin: 1.2rem 0;
+    }
+    .job-photos img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .bid-form {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+      color: #374151;
+      font-size: 1rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      background: #f9fafb;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #1e40af;
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
+      background: white;
+    }
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      background: #10b981;
+      color: white;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+    .btn-submit:hover {
+      background: #059669;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.4);
+    }
+
+    .bid-status {
+      background: #d1fae5;
+      color: #065f46;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 12px rgba(5, 95, 70, 0.1);
+    }
+
+    .no-job {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      margin: 1.5rem 0;
+      border: 1px dashed #ddd;
+    }
+
+    @media (max-width: 768px) {
+      .page-header h1 { font-size: 2rem; }
+      .page-header p { font-size: 1rem; }
+      .job-summary, .bid-form { padding: 1.5rem; }
+      .job-title { font-size: 1.5rem; }
+      .btn-submit { padding: 14px 28px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="nav-links">
+        <a href="pro-dashboard.html" class="btn" style="background:#fbbf24;color:#1e3a8a;padding:10px 20px;border-radius:50px;">Back</a>
+        <button id="logoutBtn" class="btn logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <h1>Submit Your Bid</h1>
+        <p>Craft a winning bid for this job</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="noJob" class="no-job" style="display:none;">
+        <p>Job not found.</p>
+      </div>
+
+      <div id="jobSummary" class="job-summary"></div>
+
+      <div id="bidSection">
+        <form id="bidForm" class="bid-form">
+          <div class="form-group">
+            <label for="bidPrice">Bid Amount ($)</label>
+            <input type="number" id="bidPrice" placeholder="e.g. 1250" min="1" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label for="bidMessage">Your Proposal</label>
+            <textarea id="bidMessage" placeholder="Explain your approach, timeline, materials, and why you're the best choice..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Submit Bid</button>
+        </form>
+      </div>
+
+      <div id="bidStatus" style="display:none;"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html">Terms</a></p>
+  </footer>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module">
+    import { logout, requireAuth } from './js/auth.js';
+
+    // CHECK LOGIN ON LOAD
+    requireAuth();
+
+    // LOGOUT BUTTON
+    document.getElementById('logoutBtn').onclick = logout;
+
+    const contractorName = "Elite Plumbing Co.";
+    let job = null;
+    let jobId = null;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    jobId = urlParams.get('job');
+
+    if (!jobId) {
+      document.getElementById('noJob').style.display = 'block';
+      return;
+    }
+
+    function loadJob() {
+      const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      job = jobs.find(j => j.id === jobId);
+      if (!job) {
+        document.getElementById('noJob').style.display = 'block';
+        return;
+      }
+
+      job.bids = job.bids || [];
+      const myBid = job.bids.find(b => b.contractor === contractorName);
+
+      renderJob();
+      if (myBid) showBidSubmitted(myBid);
+    }
+
+    function renderJob() {
+      document.getElementById('jobSummary').innerHTML = `
+        <div class="job-title">${job.title}</div>
+        <div class="job-meta">${job.trade} • ${job.city || 'Minneapolis'}, MN • ZIP: ${job.zip}</div>
+        <div class="job-desc">${job.description}</div>
+        ${job.images.length > 0 ? `
+          <div class="job-photos">
+            ${job.images.map(img => `<img src="${img}" />`).join('')}
+          </div>
+        ` : ''}
+      `;
+    }
+
+    function showBidSubmitted(bid) {
+      document.getElementById('bidSection').style.display = 'none';
+      document.getElementById('bidStatus').innerHTML = `
+        <div class="bid-status">
+          Bid Submitted: $${bid.price} — We'll notify you if selected!
+        </div>
+      `;
+      document.getElementById('bidStatus').style.display = 'block';
+    }
+
+    document.getElementById('bidForm').onsubmit = e => {
+      e.preventDefault();
+      const price = document.getElementById('bidPrice').value.trim();
+      const message = document.getElementById('bidMessage').value.trim();
+      if (!price || !message) return;
+
+      const bid = {
+        id: Date.now().toString(),
+        contractor: contractorName,
+        price: parseFloat(price),
+        message: message,
+        timestamp: new Date().toLocaleString()
+      };
+
+      job.bids.push(bid);
+      saveJob();
+      showBidSubmitted(bid);
+    };
+
+    function saveJob() {
+      const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      const jobIndex = jobs.findIndex(j => j.id === jobId);
+      if (jobIndex !== -1) {
+        jobs[jobIndex] = job;
+        localStorage.setItem('home2pros_jobs', JSON.stringify(jobs));
+      }
+    }
+
+    loadJob();
+  </script>
+</body>
+</html>

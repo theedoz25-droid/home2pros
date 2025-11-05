@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>home2pros | Minnesota's #1 Contractor Marketplace</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* MOBILE-FIRST + PREMIUM */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', sans-serif; }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 6rem 1rem 4rem;
+      color: white;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                  url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+      clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      margin: 0 0 0.8rem;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      color: white !important;
+      text-shadow: 0 3px 12px rgba(0,0,0,0.6);
+    }
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 90%;
+      margin: 0 auto 2rem;
+      color: white !important;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      line-height: 1.5;
+    }
+    .hero .btn {
+      background: #fbbf24;
+      color: #1e3a8a;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      border-radius: 50px;
+      box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4);
+      transition: all 0.3s ease;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .hero .btn:hover {
+      background: #f59e0b;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(251, 191, 36, 0.5);
+    }
+
+    /* FEATURES */
+    .features { padding: 3rem 1rem; background: #f8f9fa; }
+    .features .container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: white;
+      padding: 1.8rem;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 1px solid #e5e7eb;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+    }
+    .feature-card .icon {
+      width: 70px; height: 70px; background: #dbeafe; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;
+    }
+    .feature-card .icon svg {
+      width: 36px; height: 36px; fill: #1e40af;
+    }
+    .feature-card h3 { font-size: 1.3rem; color: #1e40af; margin-bottom: 0.6rem; }
+    .feature-card p { color: #4b5563; font-size: 0.95rem; line-height: 1.5; }
+
+    /* CTA */
+    .cta { padding: 4rem 1rem; text-align: center; background: white; }
+    .cta h2 { font-size: 2rem; color: #1e40af; margin-bottom: 0.8rem; }
+    .cta p { max-width: 90%; margin: 0 auto 1.8rem; color: #6b7280; font-size: 1rem; }
+    .cta .btn {
+      background: #10b981; color: white; padding: 14px 36px; font-size: 1.1rem;
+      border-radius: 50px; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+    .cta .btn:hover { background: #059669; transform: translateY(-3px); }
+
+    /* DESKTOP */
+    @media (min-width: 640px) {
+      .hero { padding: 8rem 1rem 5rem; }
+      .hero h1 { font-size: 3.8rem; }
+      .hero p { font-size: 1.3rem; max-width: 700px; }
+      .hero .btn { padding: 18px 40px; font-size: 1.25rem; }
+
+      .features .container { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+      .feature-card .icon { width: 80px; height: 80px; }
+      .feature-card .icon svg { width: 40px; height: 40px; }
+      .feature-card h3 { font-size: 1.4rem; }
+      .feature-card p { font-size: 0.95rem; }
+
+      .cta h2 { font-size: 2.5rem; }
+      .cta p { max-width: 600px; font-size: 1.1rem; }
+      .cta .btn { padding: 16px 40px; font-size: 1.2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2.4rem; }
+      .hero p { font-size: 1rem; }
+      .hero .btn { padding: 12px 28px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="mobile-menu"><span></span><span></span><span></span></div>
+      <div class="nav-links" id="navLinks"></div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Get Bids from Trusted Local Pros</h1>
+      <p>Post your job in minutes. Minnesota contractors compete for your business.</p>
+      <button id="postJobBtn" class="btn">Post a Job Free</button>
+    </div>
+  </section>
+
+  <!-- FEATURES WITH SVG ICONS -->
+  <section class="features">
+    <div class="container">
+      <div class="feature-card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        </div>
+        <h3>Fast & Free</h3>
+        <p>Post jobs in under 2 minutes. No fees. Get bids in hours.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <h3>Verify your Pro</h3>
+        <p>Choose the Pro you want after you verify them.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <h3>Save Money</h3>
+        <p>Contractors compete — you get the best price.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to Get Started?</h2>
+      <p>Join thousands of Minnesota homeowners saving time and money.</p>
+      <a href="customer-signup.html" class="btn">Create Free Account</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html">Terms</a></p>
+  </footer>
+
+  <script type="module" src="js/nav.js"></script>
+  <script>
+    // CHECK LOGIN BEFORE POSTING JOB
+    document.getElementById('postJobBtn').addEventListener('click', () => {
+      const user = localStorage.getItem('home2pros_user');
+      if (user === 'customer') {
+        window.location.href = 'post-job.html';
+      } else {
+        // NOT LOGGED IN → GO TO LOGIN + REMEMBER WHERE THEY WANTED TO GO
+        window.location.href = 'customer-login.html?next=post-job.html';
+      }
+    });
+  </script>
+</body>
+</html>

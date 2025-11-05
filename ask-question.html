@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ask Question | home2pros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: #f9fafb; color: #1f2937; }
+
+    .nav-container {
+      display: flex; justify-content: space-between; align-items: center; 
+      padding: 1rem 1.5rem; background: #1e40af; color: white;
+    }
+    .logo { font-size: 1.6rem; font-weight: 900; }
+    .nav-links { display: flex; gap: 1rem; align-items: center; }
+    .btn-back, .btn-logout {
+      background: #ef4444; color: white; padding: 8px 16px; border-radius: 8px; 
+      font-weight: 600; cursor: pointer; border: none;
+    }
+
+    .container { max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+
+    .form-card {
+      background: white; border-radius: 14px; padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e5e7eb;
+    }
+    .form-card h2 { color: #1e40af; margin-bottom: 1rem; font-size: 1.4rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+    textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; height: 120px; resize: vertical; }
+
+    .btn-submit {
+      background: #1e40af; color: white; padding: 14px 24px; border: none; border-radius: 10px;
+      font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%;
+    }
+    .btn-submit:hover { background: #1e3a8a; }
+
+    .success-message {
+      background: #d1fae5; color: #065f46; padding: 1rem; border-radius: 10px; text-align: center;
+      margin-top: 1rem; display: none;
+    }
+
+    footer {
+      text-align: center; padding: 2rem; color: #6b7280; font-size: 0.9rem; margin-top: 3rem;
+    }
+    footer a { color: #fbbf24; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="nav-links">
+        <a href="pro-dashboard.html" class="btn-back">Back</a>
+        <button id="logoutBtn" class="btn-logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="form-card">
+      <h2>Ask a Question</h2>
+      <form id="questionForm">
+        <div class="form-group">
+          <label for="question">Your Question</label>
+          <textarea id="question" placeholder="e.g. Is the roof asphalt or metal?" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit Question</button>
+      </form>
+      <div id="successMessage" class="success-message">
+        Question submitted! Customer will be notified.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html">Terms</a></p>
+  </footer>
+
+  <script>
+    localStorage.setItem('home2pros_user', 'contractor');
+
+    document.getElementById('logoutBtn').onclick = () => {
+      localStorage.removeItem('home2pros_user');
+      alert('Logged out!');
+      location.href = 'index.html';
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobId = urlParams.get('job');
+
+    document.getElementById('questionForm').onsubmit = e => {
+      e.preventDefault();
+      const questionText = document.getElementById('question').value.trim();
+      if (!questionText) return;
+
+      const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      const job = jobs.find(j => j.id === jobId);
+      if (!job) return;
+
+      job.qa = job.qa || [];
+      job.qa.push({
+        id: Date.now().toString(),
+        contractor: "Elite Plumbing Co.",
+        question: questionText,
+        timestamp: new Date().toLocaleString()
+      });
+
+      const jobIndex = jobs.findIndex(j => j.id === jobId);
+      jobs[jobIndex] = job;
+      localStorage.setItem('home2pros_jobs', JSON.stringify(jobs));
+
+      document.getElementById('successMessage').style.display = 'block';
+      document.getElementById('questionForm').reset();
+
+      setTimeout(() => {
+        location.href = `job-details.html?job=${jobId}`;
+      }, 1500);
+    };
+  </script>
+</body>
+</html>

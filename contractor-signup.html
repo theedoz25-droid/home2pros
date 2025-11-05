@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contractor Signup | home2pros</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    .signup-box {
+      max-width: 480px;
+      margin: 3rem auto;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .signup-box h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      color: #1e40af;
+      margin-bottom: 0.5rem;
+    }
+    .signup-box p {
+      text-align: center;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    .btn-signup {
+      width: 100%;
+      padding: 14px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .login-link a {
+      color: #3b82f6;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="mobile-menu"><span></span><span></span><span></span></div>
+      <div class="nav-links" id="navLinks"></div>
+    </div>
+  </header>
+
+  <div class="signup-box">
+    <h1>Join as a Pro</h1>
+    <p>Get jobs, grow your business — $100 first month, then free.</p>
+    <form id="signupForm">
+      <div class="form-group">
+        <input type="text" placeholder="Company Name" required />
+      </div>
+      <div class="form-group">
+        <select required>
+          <option value="">Select Trade</option>
+          <option>Plumbing</option><option>Electrical</option><option>HVAC</option><option>Roofing</option>
+          <option>Tree Service</option><option>Concrete</option><option>Landscaping & Snow Removal</option>
+          <option>Welding</option><option>Windows & Doors</option><option>Handyman</option><option>Decks</option>
+          <option>Flooring</option><option>Transport & Moving</option><option>Carpentry</option><option>Miscellaneous</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email" required />
+      </div>
+      <div class="form-group">
+        <input type="tel" placeholder="Phone" required />
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Password" required />
+      </div>
+      <button type="submit" class="btn-signup">Create Account</button>
+    </form>
+    <div class="login-link">
+      Already have an account? <a href="contractor-login.html">Log in</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html" style="color:#fbbf24;">Terms</a></p>
+  </footer>
+
+  <script type="module" src="js/nav.js"></script>
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      localStorage.setItem('home2pros_user', 'contractor');
+      alert('Account created! Welcome, Pro!');
+      window.location.href = 'pro-dashboard.html';
+    });
+  </script>
+</body>
+</html>

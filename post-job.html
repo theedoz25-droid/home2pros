@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post a Job | home2pros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: #f9fafb; color: #1f2937; }
+
+    .nav-container {
+      display: flex; justify-content: space-between; align-items: center; 
+      padding: 1rem 1.5rem; background: #1e40af; color: white;
+    }
+    .logo { font-size: 1.6rem; font-weight: 900; }
+    .nav-links { display: flex; gap: 1rem; align-items: center; }
+    .btn-back, .btn-logout {
+      background: #ef4444; color: white; padding: 8px 16px; border-radius: 8px; 
+      font-weight: 600; cursor: pointer; border: none;
+    }
+
+    .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+
+    .form-card {
+      background: white; border-radius: 14px; padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e5e7eb;
+    }
+    .form-card h1 { color: #1e40af; margin-bottom: 1.5rem; font-size: 2rem; text-align: center; }
+    .form-group { margin-bottom: 1.5rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151; }
+    input, select, textarea {
+      width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem;
+    }
+    textarea { height: 120px; resize: vertical; }
+
+    .photo-upload {
+      border: 2px dashed #ddd; border-radius: 12px; padding: 1.5rem; text-align: center;
+      background: #f8fafc; margin-bottom: 1.5rem;
+    }
+    .photo-upload input { display: none; }
+    .photo-upload label {
+      background: #1e40af; color: white; padding: 12px 24px; border-radius: 10px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; display: inline-block;
+    }
+    .photo-preview {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin-top: 1rem;
+    }
+    .photo-preview img {
+      width: 100%; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;
+    }
+
+    .btn-submit {
+      background: #10b981; color: white; padding: 14px 24px; border: none; border-radius: 10px;
+      font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%;
+    }
+    .btn-submit:hover { background: #059669; }
+
+    .success-message {
+      background: #d1fae5; color: #065f46; padding: 1rem; border-radius: 10px; text-align: center;
+      margin-top: 1rem; display: none;
+    }
+
+    footer {
+      text-align: center; padding: 2rem; color: #6b7280; font-size: 0.9rem; margin-top: 3rem;
+    }
+    footer a { color: #fbbf24; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="nav-links">
+        <a href="dashboard.html" class="btn-back">Back</a>
+        <button id="logoutBtn" class="btn-logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="form-card">
+      <h1>Post a New Job</h1>
+      <form id="postJobForm">
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input type="text" id="jobTitle" placeholder="e.g. Fix leaking pipe" required />
+        </div>
+        <div class="form-group">
+          <label for="jobTrade">Trade Category</label>
+          <select id="jobTrade" required>
+            <option value="">Select a category</option>
+            <option>Plumbing</option><option>Electrical</option><option>HVAC</option><option>Roofing</option>
+            <option>Tree Service</option><option>Concrete</option><option>Landscaping & Snow Removal</option>
+            <option>Welding</option><option>Windows & Doors</option><option>Handyman</option><option>Decks</option>
+            <option>Flooring</option><option>Transport & Moving</option><option>Carpentry</option><option>Miscellaneous</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="jobDescription">Description</label>
+          <textarea id="jobDescription" placeholder="Describe the job in detail..." required></textarea>
+        </div>
+
+        <div class="photo-upload">
+          <input type="file" id="photoInput" accept="image/*" multiple />
+          <label for="photoInput">Upload Photos (up to 10)</label>
+          <div class="photo-preview" id="photoPreview"></div>
+        </div>
+
+        <button type="submit" class="btn-submit">Post Job</button>
+      </form>
+      <div id="successMessage" class="success-message">
+        Job posted successfully! Contractors will bid soon.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html">Terms</a></p>
+  </footer>
+
+  <script>
+    localStorage.setItem('home2pros_user', 'customer');
+
+    document.getElementById('logoutBtn').onclick = () => {
+      localStorage.removeItem('home2pros_user');
+      alert('Logged out!');
+      location.href = 'index.html';
+    };
+
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
+    let images = [];
+
+    photoInput.onchange = () => {
+      const files = Array.from(photoInput.files).slice(0, 10);
+      images = files.map(file => URL.createObjectURL(file));
+      renderPhotos();
+    };
+
+    function renderPhotos() {
+      photoPreview.innerHTML = '';
+      images.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        photoPreview.appendChild(img);
+      });
+    }
+
+    document.getElementById('postJobForm').onsubmit = e => {
+      e.preventDefault();
+
+      const job = {
+        id: Date.now().toString(),
+        title: document.getElementById('jobTitle').value.trim(),
+        trade: document.getElementById('jobTrade').value,
+        description: document.getElementById('jobDescription').value.trim(),
+        zip: '55401',
+        images: images.filter(Boolean).map(() => 'https://via.placeholder.com/150?text=Photo'),
+        bids: [],      // CRITICAL: Initialize bids
+        qa: [],        // CRITICAL: Initialize Q&A
+        acceptedBid: null
+      };
+
+      const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      jobs.push(job);
+      localStorage.setItem('home2pros_jobs', JSON.stringify(jobs));
+
+      document.getElementById('successMessage').style.display = 'block';
+      document.getElementById('postJobForm').reset();
+      photoPreview.innerHTML = '';
+      images = [];
+
+      setTimeout(() => {
+        location.href = 'dashboard.html';
+      }, 2000);
+    };
+  </script>
+</body>
+</html>

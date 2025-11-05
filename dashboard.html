@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | home2pros</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* MOBILE-FIRST + PREMIUM */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f8f9fa; }
+
+    header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    main { padding-top: 100px; padding-bottom: 2rem; }
+
+    .dashboard-header {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .dashboard-header h1 {
+      font-size: 2.2rem;
+      color: #1e40af;
+      margin: 0 0 0.5rem;
+      font-weight: 900;
+    }
+    .dashboard-header p {
+      color: #6b7280;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      justify-content: center;
+    }
+
+    .job-card {
+      background: white;
+      border-radius: 18px;
+      padding: 1.4rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 280px;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .job-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.6rem;
+    }
+    .job-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin: 0;
+      flex: 1;
+      line-height: 1.3;
+    }
+
+    .job-meta {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin: 0 0 0.6rem;
+    }
+
+    .job-desc {
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.5;
+      margin: 0 0 0.8rem;
+      flex-grow: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .job-photos {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.4rem;
+      margin: 0.6rem 0;
+      height: 60px;
+    }
+    .job-photos img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .job-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      gap: 0.5rem;
+    }
+    .btn-small {
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-view { background: #1e40af; color: white; }
+    .btn-view:hover { background: #1e3a8a; }
+    .btn-cancel { background: #ef4444; color: white; }
+    .btn-cancel:hover { background: #dc2626; }
+
+    .no-jobs {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin: 1.5rem 0;
+      border: 1px dashed #ddd;
+      min-height: 280px;
+      max-width: 380px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .no-jobs p {
+      margin: 0 0 1.2rem;
+      color: #6b7280;
+      font-size: 1.1rem;
+    }
+    .no-jobs .btn {
+      background: #10b981;
+      color: white;
+      padding: 12px 32px;
+      font-size: 1rem;
+      border-radius: 50px;
+      margin: 0 auto;
+      width: fit-content;
+    }
+
+    /* DESKTOP */
+    @media (min-width: 640px) {
+      .dashboard-header { padding: 3rem 1rem 2rem; }
+      .dashboard-header h1 { font-size: 2.5rem; }
+      .dashboard-header p { font-size: 1.1rem; }
+
+      .job-card { padding: 1.6rem; min-height: 300px; }
+      .job-title { font-size: 1.35rem; }
+      .job-photos { height: 70px; }
+      .btn-small { padding: 8px 16px; font-size: 0.9rem; }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-header h1 { font-size: 2rem; }
+      .job-card { padding: 1.2rem; min-height: 260px; }
+      .job-actions { flex-direction: column; gap: 0.6rem; }
+      .btn-small { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="mobile-menu"><span></span><span></span><span></span></div>
+      <div class="nav-links" id="navLinks"></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dashboard-header">
+      <div class="container">
+        <h1>Your Jobs</h1>
+        <p>Track bids, manage projects, and save money</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="noJobs" class="no-jobs">
+        <p>No jobs posted yet.</p>
+        <a href="post-job.html" class="btn">Post Your First Job</a>
+      </div>
+
+      <div class="job-grid" id="jobsList"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html">Terms</a></p>
+  </footer>
+
+  <script type="module" src="js/nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const jobsList = document.getElementById('jobsList');
+      const noJobs = document.getElementById('noJobs');
+
+      function renderJobs() {
+        const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+        jobsList.innerHTML = '';
+
+        if (jobs.length === 0) {
+          noJobs.style.display = 'flex';
+          return;
+        }
+
+        noJobs.style.display = 'none';
+
+        jobs.forEach(job => {
+          const card = document.createElement('div');
+          card.className = 'job-card';
+
+          card.innerHTML = `
+            <div class="job-header">
+              <h3 class="job-title">${job.title}</h3>
+            </div>
+            <div class="job-meta">${job.trade} • ZIP: ${job.zip}</div>
+            <div class="job-desc">${job.description}</div>
+            ${job.images.length > 0 ? `
+              <div class="job-photos">
+                ${job.images.map(img => `<img src="${img}" />`).join('')}
+              </div>
+            ` : ''}
+            <div class="job-actions">
+              <a href="bids.html?job=${job.id}" class="btn-small btn-view">
+                View Job & Bids (${job.bids?.length || 0})
+              </a>
+              <button onclick="cancelJob('${job.id}')" class="btn-small btn-cancel">
+                Cancel Job
+              </button>
+            </div>
+          `;
+          jobsList.appendChild(card);
+        });
+      }
+
+      window.cancelJob = (jobId) => {
+        if (confirm('Cancel this job? All bids will be lost.')) {
+          const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+          const updated = jobs.filter(j => j.id !== jobId);
+          localStorage.setItem('home2pros_jobs', JSON.stringify(updated));
+          renderJobs();
+        }
+      };
+
+      renderJobs();
+    });
+  </script>
+</body>
+</html>

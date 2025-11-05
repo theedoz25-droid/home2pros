@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pro Dashboard | home2pros</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* MOBILE-FIRST + PREMIUM */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f8f9fa; }
+
+    header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    main { padding-top: 100px; padding-bottom: 2rem; }
+
+    .dashboard-header {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .dashboard-header h1 {
+      font-size: 2.4rem;
+      color: #1e40af;
+      margin: 0 0 0.5rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .dashboard-header p {
+      color: #6b7280;
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1.5rem 0; justify-content: center;
+    }
+    .filters select, .filters input {
+      padding: 10px 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 0.95rem; min-width: 140px;
+    }
+    .filters button {
+      background: #1e40af; color: white; padding: 10px 20px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2rem;
+    }
+    @media (max-width: 992px) {
+      .content { grid-template-columns: 1fr; }
+    }
+
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 380px);
+      gap: 1.5rem;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+
+    .job-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.6rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 340px;
+      width: 380px;
+      min-width: 380px;
+      max-width: 380px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .job-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.6rem;
+      min-height: 40px;
+    }
+    .job-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin: 0;
+      flex: 1;
+      line-height: 1.3;
+    }
+    .qa-badge {
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .job-meta {
+      font-size: 0.95rem;
+      color: #6b7280;
+      margin: 0 0 0.6rem;
+      min-height: 24px;
+    }
+
+    .job-desc {
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.5;
+      margin: 0 0 0.8rem;
+      flex-grow: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+    }
+
+    .job-photos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin: 0.6rem 0;
+      height: 70px;
+      overflow: hidden;
+    }
+    .job-photos img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .job-actions {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: auto;
+      min-height: 50px;
+      align-items: center;
+    }
+    .btn {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-viewbid { background: #10b981; color: white; }
+    .btn-viewbid:hover { background: #059669; }
+    .btn-cancel { background: #ef4444; color: white; }
+    .btn-cancel:hover { background: #dc2626; }
+
+    .bid-status {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .status-accepted { background: #d1fae5; color: #065f46; }
+
+    .profile-section {
+      background: white;
+      border-radius: 20px;
+      padding: 1.8rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+      height: fit-content;
+      min-height: 300px;
+    }
+    .profile-header {
+      display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem;
+    }
+    .profile-pic {
+      width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 4px solid #1e40af;
+    }
+    .profile-info h3 {
+      margin: 0; font-size: 1.4rem; color: #1e40af; font-weight: 700;
+    }
+    .profile-info .license {
+      background: #f0f9ff; padding: 0.5rem 1rem; border-radius: 12px; font-weight: 600; color: #1e40af; font-size: 0.9rem; display: inline-block; margin-top: 0.4rem;
+    }
+    .bio {
+      font-size: 0.95rem; line-height: 1.6; color: #4b5563; margin-top: 1rem;
+    }
+    .map-container {
+      height: 180px; margin-top: 1.5rem; border-radius: 16px; overflow: hidden; border: 1px solid #ddd;
+      background: #e5e7eb; display: flex; align-items: center; justify-content: center; color: #6b7280; font-style: italic; font-size: 0.9rem;
+    }
+
+    .no-jobs {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      margin: 1.5rem 0;
+      border: 1px dashed #ddd;
+      height: 340px;
+      width: 380px;
+      min-width: 380px;
+      max-width: 380px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .no-jobs p { margin: 0 0 1.2rem; color: #6b7280; font-size: 1.1rem; }
+
+    @media (max-width: 768px) {
+      .dashboard-header h1 { font-size: 2rem; }
+      .filters { justify-content: stretch; }
+      .filters select, .filters input { flex: 1; }
+      .job-grid { grid-template-columns: 1fr; }
+      .job-card { height: 320px; width: 100%; min-width: 0; max-width: none; }
+      .no-jobs { width: 100%; min-width: 0; max-width: none; }
+      .job-actions { flex-direction: column; gap: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="nav-links">
+        <button id="logoutBtn" class="btn logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dashboard-header">
+      <div class="container">
+        <h1 id="dashboardTitle">Elite Plumbing Co. Dashboard</h1>
+        <p>Browse and bid on local projects</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="filters">
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Electrical">Electrical</option>
+          <option value="HVAC">HVAC</option>
+          <option value="Roofing">Roofing</option>
+          <option value="Tree Service">Tree Service</option>
+          <option value="Concrete">Concrete</option>
+          <option value="Landscaping & Snow Removal">Landscaping & Snow Removal</option>
+          <option value="Welding">Welding</option>
+          <option value="Windows & Doors">Windows & Doors</option>
+          <option value="Handyman">Handyman</option>
+          <option value="Decks">Decks</option>
+          <option value="Flooring">Flooring</option>
+          <option value="Transport & Moving">Transport & Moving</option>
+          <option value="Carpentry">Carpentry</option>
+          <option value="Miscellaneous">Miscellaneous</option>
+        </select>
+        <input type="text" id="citySearch" placeholder="City or ZIP" />
+        <button onclick="filterJobs()">Search</button>
+      </div>
+
+      <div class="content">
+        <div>
+          <div id="noJobs" class="no-jobs">
+            <p>No jobs match your filters.</p>
+          </div>
+          <div class="job-grid" id="jobGrid"></div>
+        </div>
+
+        <div class="profile-section">
+          <div class="profile-header">
+            <img src="https://via.placeholder.com/90" alt="Pro Photo" class="profile-pic" id="proPhoto">
+            <div class="profile-info">
+              <h3 id="proName">Elite Plumbing Co.</h3>
+              <p id="proLicense" class="license">License #PL-98765</p>
+            </div>
+          </div>
+          <div class="bio" id="proBio">
+            15+ years serving Minneapolis. Specializing in emergency repairs, installations, and eco-friendly solutions. 
+            Fully insured and bonded. Available 24/7.
+          </div>
+          <div class="map-container">
+            Map View (Google Maps API Key Required)
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html">Terms</a></p>
+  </footer>
+
+  <script type="module" src="js/nav.js"></script>
+  <script>
+    localStorage.setItem('home2pros_user', 'contractor');
+
+    const contractor = {
+      name: "Elite Plumbing Co.",
+      license: "PL-98765",
+      bio: "15+ years serving Minneapolis. Specializing in emergency repairs, installations, and eco-friendly solutions. Fully insured and bonded. Available 24/7.",
+      photo: "https://via.placeholder.com/90"
+    };
+
+    document.getElementById('dashboardTitle').textContent = `${contractor.name} Dashboard`;
+    document.getElementById('proName').textContent = contractor.name;
+    document.getElementById('proLicense').textContent = `License #${contractor.license}`;
+    document.getElementById('proBio').textContent = contractor.bio;
+    document.getElementById('proPhoto').src = contractor.photo;
+
+    document.getElementById('logoutBtn').onclick = () => {
+      localStorage.removeItem('home2pros_user');
+      alert('Logged out!');
+      location.href = 'index.html';
+    };
+
+    const jobGrid = document.getElementById('jobGrid');
+    const noJobs = document.getElementById('noJobs');
+
+    function renderJobs(jobsToShow = null) {
+      const jobs = jobsToShow || JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      jobGrid.innerHTML = '';
+
+      if (jobs.length === 0) {
+        noJobs.style.display = 'flex';
+        return;
+      }
+
+      noJobs.style.display = 'none';
+
+      jobs.forEach(job => {
+        const card = document.createElement('div');
+        card.className = 'job-card';
+
+        const myBid = job.bids?.find(b => b.contractor === contractor.name);
+        const isAccepted = myBid && job.acceptedBid === myBid.id;
+        const qaCount = (job.qa || []).filter(q => q.answer).length;
+
+        card.innerHTML = `
+          <div class="job-header">
+            <h3 class="job-title">${job.title}</h3>
+            ${qaCount > 0 ? `<span class="qa-badge">Q&A: ${qaCount}</span>` : ''}
+          </div>
+          <div class="job-meta">${job.trade} • ${job.city || 'Minneapolis'}, MN • ZIP: ${job.zip}</div>
+          <div class="job-desc">${job.description}</div>
+          ${job.images.length > 0 ? `
+            <div class="job-photos">
+              ${job.images.map(img => `<img src="${img}" />`).join('')}
+            </div>
+          ` : ''}
+          <div class="job-actions">
+            <!-- SINGLE BUTTON: View/Bid Now → submit-bid.html -->
+            <a href="submit-bid.html?job=${job.id}" class="btn btn-viewbid">
+              ${myBid ? (isAccepted ? 'Bid Accepted' : 'Edit Bid') : 'View/Bid Now'}
+            </a>
+            ${myBid && !isAccepted ? `
+              <button class="btn btn-cancel" onclick="cancelBid('${job.id}', '${myBid.id}')">Cancel</button>
+            ` : ''}
+          </div>
+        `;
+        jobGrid.appendChild(card);
+      });
+    }
+
+    window.cancelBid = (jobId, bidId) => {
+      if (confirm('Cancel your bid?')) {
+        const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+        const job = jobs.find(j => j.id === jobId);
+        if (!job) return;
+
+        job.bids = job.bids.filter(b => b.id !== bidId);
+        const jobIndex = jobs.findIndex(j => j.id === jobId);
+        jobs[jobIndex] = job;
+        localStorage.setItem('home2pros_jobs', JSON.stringify(jobs));
+
+        alert('Bid canceled.');
+        renderJobs();
+      }
+    };
+
+    function filterJobs() {
+      const category = document.getElementById('categoryFilter').value;
+      const city = document.getElementById('citySearch').value.trim().toLowerCase();
+      const allJobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+
+      const filtered = allJobs.filter(job => {
+        const matchesCategory = !category || job.trade === category;
+        const matchesCity = !city || 
+          (job.city && job.city.toLowerCase().includes(city)) || 
+          job.zip.includes(city);
+        return matchesCategory && matchesCity;
+      });
+
+      renderJobs(filtered);
+    }
+
+    renderJobs();
+  </script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Job Details | home2pros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: #f9fafb; color: #1f2937; }
+
+    .nav-container {
+      display: flex; justify-content: space-between; align-items: center; 
+      padding: 1rem 1.5rem; background: #1e40af; color: white;
+    }
+    .logo { font-size: 1.6rem; font-weight: 900; }
+    .nav-links { display: flex; gap: 1rem; align-items: center; }
+    .btn-back, .btn-logout {
+      background: #ef4444; color: white; padding: 8px 16px; border-radius: 8px; 
+      font-weight: 600; cursor: pointer; border: none;
+    }
+
+    .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+
+    .job-header {
+      background: white; border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e5e7eb;
+    }
+    .job-title { font-weight: 700; color: #1e40af; font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .job-city { color: #6b7280; font-size: 1rem; margin-bottom: 0.75rem; }
+    .job-desc { color: #4b5563; font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; }
+    .job-photos {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .job-photos img {
+      width: 100%; height: 100px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd;
+    }
+
+    .section {
+      background: white; border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e5e7eb;
+    }
+    .section h2 { color: #1e40af; margin-bottom: 1rem; font-size: 1.4rem; }
+
+    .qa-thread {
+      margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #e5e7eb;
+    }
+    .qa-thread:last-child { border-bottom: none; }
+    .question {
+      background: #f0f9ff; padding: 1rem; border-radius: 10px; margin-bottom: 0.75rem;
+    }
+    .question-author { font-weight: 600; color: #1e40af; font-size: 0.95rem; }
+    .question-text { color: #4b5563; margin-top: 0.25rem; }
+    .answer {
+      background: #f3f4f6; padding: 1rem; border-radius: 10px; margin-left: 2rem;
+    }
+    .answer-author { font-weight: 600; color: #10b981; font-size: 0.95rem; }
+    .answer-text { color: #4b5563; margin-top: 0.25rem; }
+
+    .form-inline {
+      display: flex; gap: 0.5rem; margin-top: 1rem;
+    }
+    .form-inline input, .form-inline textarea {
+      flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;
+    }
+    .form-inline button {
+      background: #1e40af; color: white; padding: 10px 16px; border: none; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    }
+
+    .bid-form {
+      background: #f8fafc; border-radius: 12px; padding: 1.2rem; margin-top: 1rem;
+      border: 1px dashed #ddd;
+    }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151; }
+    input, textarea {
+      width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;
+    }
+    textarea { height: 100px; resize: vertical; }
+    .btn-submit {
+      background: #10b981; color: white; padding: 12px 24px; border: none; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; cursor: pointer;
+    }
+
+    .bid-status {
+      background: #d1fae5; color: #065f46; padding: 6px 12px; border-radius: 6px;
+      font-size: 0.85rem; font-weight: 600; margin-top: 1rem; display: inline-block;
+    }
+
+    .no-content {
+      text-align: center; padding: 2rem; color: #6b7280;
+    }
+
+    .live-update {
+      color: #10b981; font-size: 0.8rem; text-align: center; margin: 1rem 0;
+    }
+
+    footer {
+      text-align: center; padding: 2rem; color: #6b7280; font-size: 0.9rem; margin-top: 3rem;
+    }
+    footer a { color: #fbbf24; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">home2pros</div>
+      <div class="nav-links">
+        <a href="pro-dashboard.html" class="btn-back">Back</a>
+        <button id="logoutBtn" class="btn-logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="job-header" id="jobHeader">
+      <!-- Filled by JS -->
+    </div>
+
+    <div class="section">
+      <h2>Q&A <span id="qaCount" style="font-size:0.8rem;color:#6b7280;"></span></h2>
+      <div class="form-inline">
+        <input type="text" id="newQuestion" placeholder="Ask a question..." />
+        <button onclick="submitQuestion()">Send</button>
+      </div>
+      <div id="liveUpdate" class="live-update" style="display:none;">New answer added!</div>
+      <div id="noQA" class="no-content">
+        <p>No questions yet. Be the first!</p>
+      </div>
+      <div id="qaList"></div>
+    </div>
+
+    <div class="section" id="bidSection">
+      <h2>Submit Your Bid</h2>
+      <div id="bidStatus"></div>
+      <form id="bidForm">
+        <div class="form-group">
+          <label for="bidPrice">Bid Amount ($)</label>
+          <input type="number" id="bidPrice" placeholder="e.g. 250" min="1" required />
+        </div>
+        <div class="form-group">
+          <label for="bidMessage">Message</label>
+          <textarea id="bidMessage" placeholder="Explain your approach..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit Bid</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 home2pros • Minnesota Only • <a href="tos.html">Terms</a></p>
+  </footer>
+
+  <script>
+    localStorage.setItem('home2pros_user', 'contractor');
+    const contractorName = "Elite Plumbing Co.";
+    let job = null;
+    let jobId = null;
+
+    document.getElementById('logoutBtn').onclick = () => {
+      localStorage.removeItem('home2pros_user');
+      alert('Logged out!');
+      location.href = 'index.html';
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    jobId = urlParams.get('job');
+
+    if (!jobId) {
+      document.getElementById('jobHeader').innerHTML = '<p>No job selected.</p>';
+      return;
+    }
+
+    function loadJob() {
+      const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      job = jobs.find(j => j.id === jobId);
+      if (!job) {
+        document.getElementById('jobHeader').innerHTML = '<p>Job not found.</p>';
+        return;
+      }
+
+      job.bids = job.bids || [];
+      job.qa = job.qa || [];
+
+      // Save back
+      const jobIndex = jobs.findIndex(j => j.id === jobId);
+      if (jobIndex !== -1) {
+        jobs[jobIndex] = job;
+        localStorage.setItem('home2pros_jobs', JSON.stringify(jobs));
+      }
+
+      renderJob();
+      renderQA();
+      renderBidForm();
+    }
+
+    function renderJob() {
+      document.getElementById('jobHeader').innerHTML = `
+        <div class="job-title">${job.title}</div>
+        <div class="job-city">Minneapolis, MN • ZIP: ${job.zip}</div>
+        <div class="job-desc">${job.description}</div>
+        ${job.images.length > 0 ? `
+          <div class="job-photos">
+            ${job.images.map(img => `<img src="${img}" />`).join('')}
+          </div>
+        ` : ''}
+      `;
+    }
+
+    function renderQA() {
+      const qaList = document.getElementById('qaList');
+      const noQA = document.getElementById('noQA');
+      const qaCount = document.getElementById('qaCount');
+
+      if (job.qa.length === 0) {
+        noQA.style.display = 'block';
+        qaCount.textContent = '';
+      } else {
+        noQA.style.display = 'none';
+        qaCount.textContent = `(${job.qa.length} question${job.qa.length > 1 ? 's' : ''})`;
+        qaList.innerHTML = '';
+        job.qa.forEach(q => {
+          const thread = document.createElement('div');
+          thread.className = 'qa-thread';
+          thread.innerHTML = `
+            <div class="question">
+              <div class="question-author">${q.contractor}</div>
+              <div class="question-text">${q.question}</div>
+            </div>
+            ${q.answer ? `
+              <div class="answer">
+                <div class="answer-author">Customer</div>
+                <div class="answer-text">${q.answer}</div>
+              </div>
+            ` : ''}
+          `;
+          qaList.appendChild(thread);
+        });
+      }
+    }
+
+    function renderBidForm() {
+      const bidStatus = document.getElementById('bidStatus');
+      const bidForm = document.getElementById('bidForm');
+      const myBid = job.bids.find(b => b.contractor === contractorName);
+
+      if (myBid) {
+        bidStatus.innerHTML = `<div class="bid-status">Bid Submitted: $${myBid.price}</div>`;
+        bidForm.style.display = 'none';
+      } else {
+        bidForm.style.display = 'block';
+        bidStatus.innerHTML = '';
+      }
+    }
+
+    window.submitQuestion = () => {
+      const input = document.getElementById('newQuestion');
+      const question = input.value.trim();
+      if (!question) return;
+
+      job.qa.push({
+        id: Date.now().toString(),
+        contractor: contractorName,
+        question: question,
+        timestamp: new Date().toLocaleString()
+      });
+
+      saveJob();
+      input.value = '';
+      renderQA();
+      showLiveUpdate();
+    };
+
+    document.getElementById('bidForm').onsubmit = e => {
+      e.preventDefault();
+      const price = document.getElementById('bidPrice').value.trim();
+      const message = document.getElementById('bidMessage').value.trim();
+      if (!price || !message) return;
+
+      const bid = {
+        id: Date.now().toString(),
+        contractor: contractorName,
+        price: parseFloat(price),
+        message: message,
+        timestamp: new Date().toLocaleString()
+      };
+
+      job.bids.push(bid);
+      saveJob();
+      renderBidForm();
+      showLiveUpdate();
+    };
+
+    function saveJob() {
+      const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      const jobIndex = jobs.findIndex(j => j.id === jobId);
+      if (jobIndex !== -1) {
+        jobs[jobIndex] = job;
+        localStorage.setItem('home2pros_jobs', JSON.stringify(jobs));
+      }
+    }
+
+    function showLiveUpdate() {
+      const live = document.getElementById('liveUpdate');
+      live.style.display = 'block';
+      setTimeout(() => live.style.display = 'none', 3000);
+    }
+
+    // Auto-refresh every 5 seconds
+    setInterval(() => {
+      const jobs = JSON.parse(localStorage.getItem('home2pros_jobs') || '[]');
+      const updatedJob = jobs.find(j => j.id === jobId);
+      if (updatedJob && JSON.stringify(updatedJob.qa) !== JSON.stringify(job.qa)) {
+        job = updatedJob;
+        renderQA();
+        showLiveUpdate();
+      }
+    }, 5000);
+
+    loadJob();
+  </script>
+</body>
+</html>
